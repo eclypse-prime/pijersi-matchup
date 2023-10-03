@@ -1,0 +1,10 @@
+{
+    "engines": {
+        "engine1": "path/to/engine1",
+        "engine2": "path/to/engine1"
+    },
+    "mode": {
+        "control": "movetime",
+        "value": 10
+    }
+}
