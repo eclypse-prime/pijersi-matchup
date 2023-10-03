@@ -1,10 +1,22 @@
 {
-    "engines": {
-        "engine1": "path/to/engine1",
-        "engine2": "path/to/engine1"
+    "engines": [
+        {
+            "name": "Engine 1",
+            "path": "path/to/engine1"
+        },
+        {
+            "name": "Engine 2",
+            "path": "path/to/engine2"
+        }
+    ],
+    "tournament": {
+        "games": 200
     },
-    "mode": {
-        "control": "movetime",
+    "openings": {
+        "path": "path/to/openings.txt"
+    },
+    "controls": {
+        "mode": "movetime",
         "value": 10
     }
 }
