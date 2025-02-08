@@ -41,8 +41,15 @@ class Tournament:
         print(f"Engine 1: {self.game.engines[0].name}")
         print(f"Engine 2: {self.game.engines[1].name}")
         print(f"Scores: {self.scores[0]}-{self.scores[1]}-{n_draws}")
-        print(f"ELO: {elo_difference(self.scores[1], n_draws, n_games):.2f} ± {
-              elo_incertitude(self.scores[1], self.scores[0], n_draws):.2f}")
+        print(f"ELO: {elo_difference(self.scores[1], n_draws, n_games):+.2f} ± {
+            elo_incertitude(self.scores[1], self.scores[0], n_draws):.2f}")
+        print()
+        print(f"Average number of actions per game: {
+              (self.game.n_actions[0] + self.game.n_actions[1])/n_games:.2f}")
+        print(f"Engine 1 average depth: {
+              self.game.max_depth_sum[0]/self.game.n_actions[0]:.2f}")
+        print(f"Engine 2 average depth: {
+              self.game.max_depth_sum[1]/self.game.n_actions[1]:.2f}")
 
 
 if __name__ == '__main__':

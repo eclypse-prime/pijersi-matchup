@@ -15,6 +15,8 @@ class Game:
         self.startpos = 'startpos'
         self.mode = 'depth 1'
         self.move_list = []
+        self.max_depth_sum = [0, 0]
+        self.n_actions = [0, 0]
 
     def initialize_engines(self):
         for engine in self.engines:
@@ -46,10 +48,24 @@ class Game:
         command = f"go {self.mode}"
         move_info = self.engines[self.current_player].send_command(
             command, "bestmove")
+        max_depth = None
+        for elem in move_info:
+            if "error" in elem.lower():
+                print(f"illegal move by {self.engines[1 - self.current_player].name}")
+                self.current_player = 1 - self.current_player
+                return False
+            if elem.startswith("info depth"):
+                max_depth = elem.split(" ")[2]
+        if max_depth != None:
+            self.max_depth_sum[self.current_player] += int(max_depth)
+            self.n_actions[self.current_player] += 1
         bestmove = move_info[-1].split(" ")[-1]
+        if "--" in bestmove:
+            bestmove = bestmove.replace("--", "")
         self.move_list.append(bestmove)
         self.set_pos()
         self.current_player = 1 - self.current_player
+        return True
 
     def play_until_end(self):
         command = "query p1turn"
@@ -57,7 +73,8 @@ class Game:
 
         game_ended = False
         while not game_ended:
-            self.play_move()
+            if not self.play_move():
+                return 1 - self.current_player
             command = "query result"
             game_state = self.engines[1 - self.current_player].send_command(
                 command, "response")[-1].split(" ")[-1]
